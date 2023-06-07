@@ -21,9 +21,51 @@ Queuing are the most frequently encountered problems in everyday life. For examp
 
 
 ## Program
+```
+import math
 
+arr_time = float(input("Enter the mean interarrival time of objects from Feeder (in secs): "))
+ser_time = float(input("Enter the mean inter-service time of Lathe Machine (in secs): "))
+robot_time = float(input("Enter the additional time taken for the Robot (in secs): "))
+c = int(input("Number of service centres: "))
 
+lam = 1 / arr_time
+mu = 1 / (ser_time + robot_time)
+
+print("--------------------------------------------------------------")
+print("Multiple Server with Infinite Capacity - (M/M/c):(oo/FIFO)")
+print("--------------------------------------------------------------")
+print("The mean arrival rate per second: %.2f" % lam)
+print("The mean service rate per second: %.2f" % mu)
+
+rho = lam / (c * mu)
+sum_val = (lam / mu) ** c * (1 / (1 - rho)) / math.factorial(c)
+
+for i in range(c):
+    sum_val += (lam / mu) ** i / math.factorial(i)
+
+P0 = 1 / sum_val
+
+if rho < 1:
+    Lq = (P0 / math.factorial(c)) * (1 / c) * (lam / mu) ** (c + 1) / (1 - rho) ** 2
+    Ls = Lq + lam / mu
+    Ws = Ls / lam
+    Wq = Lq / lam
+
+    print("Average number of objects in the system: %.2f" % Ls)
+    print("Average number of objects in the conveyor: %.2f" % Lq)
+    print("Average waiting time of an object in the system: %.2f secs" % Ws)
+    print("Average waiting time of an object in the conveyor: %.2f secs" % Wq)
+    print("Probability that the system is busy: %.2f" % rho)
+    print("Probability that the system is empty: %.2f" % (1 - rho))
+else:
+    print("Warning! Object overflow will happen in the conveyor")
+
+print("--------------------------------------------------------------")
+
+```
 ## Output :
+![image](https://github.com/Saravana-kumar369/Muttiple-capacity-with-infinite-capacity/assets/117925254/805ca721-1c2f-4d99-aeac-d0194728f865)
 
 ## Result : 
 
